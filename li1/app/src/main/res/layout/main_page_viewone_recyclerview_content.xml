@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <!--        序号-->
+        <TextView
+            android:id="@+id/item_loacl_music_num"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:textColor="@color/black"
+            android:text="123"
+            android:textSize="24dp"
+            android:textStyle="bold" />
+        <!--        歌名-->
+        <TextView
+            android:id="@+id/item_loacl_music_song"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:layout_toRightOf="@+id/item_loacl_music_num"
+            android:ellipsize="end"
+            android:singleLine="true"
+            android:text="玫瑰花的葬礼"
+            android:textColor="@color/black"
+            android:textSize="18dp"
+            android:textStyle="italic" />
+        <!--        android:ellipsize="end"超出显示省略号
+                    android:singleLine="true"超出本行不显示--><!--        歌手-->
+        <TextView
+            android:id="@+id/item_loacl_music_singer"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/item_loacl_music_song"
+            android:layout_alignLeft="@+id/item_loacl_music_song"
+            android:layout_marginTop="10dp"
+            android:text="歌手"
+            android:textColor="@color/black"
+            android:textSize="14dp"
+            android:textStyle="italic" />
+        <!--        时长-->
+        <TextView
+            android:id="@+id/item_loacl_music_durtion"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@+id/item_loacl_music_singer"
+            android:layout_alignBottom="@+id/item_loacl_music_singer"
+            android:layout_marginTop="10dp"
+            android:layout_marginLeft="20dp"
+            android:text="04:30"
+            android:textColor="@color/black"
+            android:textSize="14dp"
+            android:textStyle="normal" />
+    </RelativeLayout>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/black"/>
+</LinearLayout>
