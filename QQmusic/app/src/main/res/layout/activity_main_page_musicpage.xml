@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
     <SeekBar
-        android:id="@+id/musicplay_seekbar"
+        android:id="@+id/sb_music_play"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="100dp"/>
@@ -17,7 +17,7 @@
         android:textColor="@color/transparent">
 
         <TextView
-            android:id="@+id/musicplay_progress"
+            android:id="@+id/tv_start_progress"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="20dp"
@@ -25,7 +25,7 @@
             android:textColor="@color/black" />
 
         <TextView
-            android:id="@+id/musicplay_total"
+            android:id="@+id/tv_end_progress"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginRight="20dp"
@@ -40,7 +40,7 @@
         android:layout_marginTop="50dp"
         android:background="@color/transparent">
         <TextView
-            android:id="@+id/musicplay_tv_song"
+            android:id="@+id/tv_song_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"
@@ -50,7 +50,7 @@
             android:textStyle="italic" />
 
         <TextView
-            android:id="@+id/musicplay_tv_singer"
+            android:id="@+id/tv_singer"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"
@@ -77,30 +77,30 @@
 
         <!--        暂停-->
         <Button
-            android:id="@+id/musicplay_iv_play"
+            android:id="@+id/btn_play"
             android:layout_width="60dp"
             android:layout_height="60dp"
             android:layout_alignParentBottom="true"
             android:layout_centerHorizontal="true"
             android:layout_marginBottom="5dp"
-            android:background="@mipmap/start" />
+            android:background="@mipmap/pause" />
         <!--        下一曲-->
         <Button
-            android:id="@+id/musicplay_iv_next"
+            android:id="@+id/btn_next"
             android:layout_width="60dp"
             android:layout_height="60dp"
             android:layout_centerVertical="true"
             android:layout_marginLeft="10dp"
-            android:layout_toRightOf="@+id/musicplay_iv_play"
+            android:layout_toRightOf="@+id/btn_play"
             android:background="@mipmap/next" />
         <!--        上一曲-->
         <Button
-            android:id="@+id/musicplay_iv_last"
+            android:id="@+id/btn_last"
             android:layout_width="60dp"
             android:layout_height="60dp"
             android:layout_centerVertical="true"
             android:layout_marginRight="10dp"
-            android:layout_toLeftOf="@+id/musicplay_iv_play"
+            android:layout_toLeftOf="@+id/btn_play"
             android:background="@mipmap/last" />
     </RelativeLayout>
 </LinearLayout>

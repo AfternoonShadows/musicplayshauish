@@ -31,8 +31,7 @@ public class MainPageViewPaperAdapter extends FragmentPagerAdapter {
     public int getCount() {
         return mlist.size();
     }
-
-    @Nullable
+    
     @Override
     public CharSequence getPageTitle(int position) {
         return mresources[position];

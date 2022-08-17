@@ -40,7 +40,6 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_page);
         init();
-        acquireData();
     }
 
     public void init() {
@@ -56,24 +55,5 @@ public class MainActivity extends AppCompatActivity {
         pagerAdapter = new MainPageViewPaperAdapter(getSupportFragmentManager(), resources, list);
         viewPager.setAdapter(pagerAdapter);
         tabLayout.setupWithViewPager(viewPager);
-    }
-    public void acquireData() {
-        tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
-
-            @Override
-            public void onTabSelected(TabLayout.Tab tab) {
-                Log.e(TAG, "addOnTabSelectedListener:选中");
-            }
-
-            @Override
-            public void onTabUnselected(TabLayout.Tab tab) {
-                Log.e(TAG, "addOnTabSelectedListener:未选中");
-            }
-
-            @Override
-            public void onTabReselected(TabLayout.Tab tab) {
-                Log.e(TAG, "addOnTabSelectedListener:再次选中");
-            }
-        });
     }
 }

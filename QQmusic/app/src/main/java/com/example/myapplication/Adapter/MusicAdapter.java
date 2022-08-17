@@ -4,14 +4,12 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AbsListView;
 import android.widget.TextView;
 
-import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.myapplication.R;
-import com.example.myapplication.bean.MusicSongText;
+import com.example.myapplication.bean.MusicSongBean;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,10 +17,10 @@ import java.util.List;
 
 public class MusicAdapter extends RecyclerView.Adapter<MusicAdapter.MHodler> {
     private final String TAG = "MusicAdapter";
-    private List<MusicSongText> list = new ArrayList<>();
+    private List<MusicSongBean> list = new ArrayList<>();
     private ItemClickLisenter itemClickLisenter;
     private View view;
-    public MusicAdapter(List<MusicSongText> list) {
+    public MusicAdapter(List<MusicSongBean> list) {
         this.list = list;
     }
 
@@ -35,7 +33,7 @@ public class MusicAdapter extends RecyclerView.Adapter<MusicAdapter.MHodler> {
 
     @Override
     public void onBindViewHolder(MusicAdapter.MHodler holder, int position) {
-        holder.itemLoaclMusicNum.setText(list.get(position).getId());
+        holder.itemLoaclMusicNum.setText(String.valueOf(list.get(position).getId()+1));
         holder.itemLoaclMusicSong.setText(list.get(position).getSong());
         holder.itemLoaclMusicSinger.setText(list.get(position).getSingger());
         holder.itemLoaclMusicDurtion.setText(list.get(position).getDuration());

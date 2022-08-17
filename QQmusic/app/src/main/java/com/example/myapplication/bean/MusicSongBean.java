@@ -3,27 +3,27 @@ package com.example.myapplication.bean;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-public class MusicSongText implements Parcelable {
+public class MusicSongBean implements Parcelable {
 //    歌曲id
-    private String Id;
+    private int Id;
 //    歌曲名
     private String Song;
 //    作者
-    private String Tutor;
+    private String Singger;
 //    歌词
     private String Lyric;
 //    图片地址
-    private String Singger;
+    private String picture;
 //    时长
     private String duration;
 //    路径
     private String path;
-    public MusicSongText(){};
+    public MusicSongBean(){};
 
-    protected MusicSongText(Parcel in) {
-        Id = in.readString();
+    protected MusicSongBean(Parcel in) {
+        Id = in.readInt();
         Song = in.readString();
-        Tutor = in.readString();
+        picture = in.readString();
         Lyric = in.readString();
         Singger = in.readString();
         duration = in.readString();
@@ -32,9 +32,9 @@ public class MusicSongText implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-        dest.writeString(Id);
+        dest.writeInt(Id);
         dest.writeString(Song);
-        dest.writeString(Tutor);
+        dest.writeString(picture);
         dest.writeString(Lyric);
         dest.writeString(Singger);
         dest.writeString(duration);
@@ -46,23 +46,23 @@ public class MusicSongText implements Parcelable {
         return 0;
     }
 
-    public static final Creator<MusicSongText> CREATOR = new Creator<MusicSongText>() {
+    public static final Creator<MusicSongBean> CREATOR = new Creator<MusicSongBean>() {
         @Override
-        public MusicSongText createFromParcel(Parcel in) {
-            return new MusicSongText(in);
+        public MusicSongBean createFromParcel(Parcel in) {
+            return new MusicSongBean(in);
         }
 
         @Override
-        public MusicSongText[] newArray(int size) {
-            return new MusicSongText[size];
+        public MusicSongBean[] newArray(int size) {
+            return new MusicSongBean[size];
         }
     };
 
-    public String getId() {
+    public int getId() {
         return Id;
     }
 
-    public void setId(String id) {
+    public void setId(int id) {
         Id = id;
     }
 
@@ -74,12 +74,12 @@ public class MusicSongText implements Parcelable {
         Song = song;
     }
 
-    public String getTutor() {
-        return Tutor;
+    public String getPicture() {
+        return picture;
     }
 
-    public void setTutor(String tutor) {
-        Tutor = tutor;
+    public void setPicture(String tutor) {
+        picture = tutor;
     }
 
     public String getLyric() {
@@ -119,7 +119,7 @@ public class MusicSongText implements Parcelable {
         return "MusicSongText{" +
                 "Id='" + Id + '\'' +
                 ", Song='" + Song + '\'' +
-                ", Tutor='" + Tutor + '\'' +
+                ", Tutor='" + picture + '\'' +
                 ", Lyric='" + Lyric + '\'' +
                 ", Singger='" + Singger + '\'' +
                 ", duration='" + duration + '\'' +

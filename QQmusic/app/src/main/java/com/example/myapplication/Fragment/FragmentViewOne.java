@@ -6,22 +6,18 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.myapplication.Adapter.MusicAdapter;
-import com.example.myapplication.MusicPage;
+import com.example.myapplication.MusicPlayActivity;
 import com.example.myapplication.R;
-import com.example.myapplication.bean.MusicSongText;
-import com.example.myapplication.persent.PresentMusicActivityMain;
+import com.example.myapplication.bean.MusicSongBean;
+import com.example.myapplication.persent.MusicPlayPresent;
 
 import java.io.File;
-import java.util.ArrayList;
 import java.util.List;
 
 public class FragmentViewOne extends Fragment {
@@ -29,8 +25,8 @@ public class FragmentViewOne extends Fragment {
     private View root = null;
     private RecyclerView mRecyclerView;
     private MusicAdapter mMusicAdapter;
-    private List<MusicSongText> mList;
-    private PresentMusicActivityMain mPresentMusicActivityMain;
+    private List<MusicSongBean> mList;
+    private MusicPlayPresent mMusicPlayPresent;
     //    音频路径
     private File[] mFiles;
 
@@ -47,10 +43,10 @@ public class FragmentViewOne extends Fragment {
     public void init() {
         mRecyclerView = root.findViewById(R.id.mainPageViewoneRecyclerView);
 //        获取数据返回List<MusicSongText>
-        mPresentMusicActivityMain = new PresentMusicActivityMain();
+        mMusicPlayPresent = new MusicPlayPresent(getContext());
 //        初始化
-        mPresentMusicActivityMain.init();
-        mList = mPresentMusicActivityMain.RequireMusicSongData();
+        mMusicPlayPresent.init();
+        mList = mMusicPlayPresent.getMusicSong();
 //        适配数据
         mMusicAdapter = new MusicAdapter(mList);
         mRecyclerView.setAdapter(mMusicAdapter);
@@ -59,8 +55,8 @@ public class FragmentViewOne extends Fragment {
         mMusicAdapter.setItemClickLisenter(new MusicAdapter.ItemClickLisenter() {
             @Override
             public void onClick(View view, int position) {
-                Log.e(TAG, "setItemClickLisenter " + String.valueOf(position));
-                Intent intent = new Intent(getActivity(), MusicPage.class);
+                Log.e(TAG, "setItemClickLisenter : song position:" + String.valueOf(position));
+                Intent intent = new Intent(getActivity(), MusicPlayActivity.class);
                 intent.putExtra("position",position);
                 startActivity(intent);
             }
