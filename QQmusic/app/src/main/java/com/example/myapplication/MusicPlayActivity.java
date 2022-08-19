@@ -1,11 +1,13 @@
 package com.example.myapplication;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.SeekBar;
@@ -18,9 +20,7 @@ import com.example.myapplication.model.MusicPlayModel;
 import com.example.myapplication.persent.MusicPlayPresent;
 
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 
 public class MusicPlayActivity extends Activity {
     private final String TAG = "MusicPage";
@@ -36,8 +36,20 @@ public class MusicPlayActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main_page_musicpage);
+        setContentView(R.layout.activity_music_play);
         init();
+    }
+
+    //    虚拟返回键
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_BACK) {
+            Intent intent = new Intent();
+            intent.putExtra("position", mPosition);
+            setResult(1010, intent);
+            finish();
+        }
+        return super.onKeyDown(keyCode, event);
     }
 
     @Override
@@ -68,8 +80,9 @@ public class MusicPlayActivity extends Activity {
         musicPlayPresent.init();
         musicPlayPresent.setMusicPlayModelListener(new MusicPlayModel.MusicPlayModelListener() {
             @Override
-            public void init(MusicSongBean musicSongBean) {
-                Log.e(TAG,"CALLBACK songPosition :"+musicSongBean.getId());
+            public void initMusicInfo(MusicSongBean musicSongBean) {
+                Log.e(TAG, "CALLBACK songPosition :" + musicSongBean.getId());
+                mPosition = musicSongBean.getId();
                 tvSinger.setText(musicSongBean.getSingger());
                 tvSong.setText(musicSongBean.getSong());
                 tvTotal.setText(musicSongBean.getDuration());
@@ -81,7 +94,7 @@ public class MusicPlayActivity extends Activity {
         sbMusicPlay.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-        //                判断是不是用户拖动
+                //                判断是不是用户拖动
                 if (fromUser) {
                     musicPlayPresent.seekBarInfoChange(true, progress);
                 }

@@ -11,11 +11,11 @@ import androidx.fragment.app.FragmentPagerAdapter;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MainPageViewPaperAdapter extends FragmentPagerAdapter {
+public class TabLayoutViewPagerAdapter extends FragmentPagerAdapter {
     private String[] mresources;
     private List<Fragment> mlist = new ArrayList<Fragment>();
 
-    public MainPageViewPaperAdapter(@NonNull FragmentManager fm, String[] mresources,List<Fragment> mlist) {
+    public TabLayoutViewPagerAdapter(@NonNull FragmentManager fm, String[] mresources, List<Fragment> mlist) {
         super(fm);
         this.mlist = mlist;
         this.mresources = mresources;

@@ -3,7 +3,10 @@ package com.example.myapplication.bean;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import java.io.Serializable;
+
 public class MusicSongBean implements Parcelable {
+//    Serializable
 //    歌曲id
     private int Id;
 //    歌曲名

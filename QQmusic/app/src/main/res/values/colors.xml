@@ -12,7 +12,7 @@
     <color name="mainPageIndicatorColor">#FFFFFFFF</color>
     <color name="mainPageTextColor">#A7A4A4</color>
     <color name="mainPagetabBackground">#FFFFFFFF</color>
-<!--    activity_main_page_musicpage xml文件颜色配置-->
+<!--    activity_music_list xml文件颜色配置-->
     <color name="musicplay_seekbar">#fff</color>
     <color name="transparent">#00FFFFFF</color>
     <color name="red">#FA3344</color>

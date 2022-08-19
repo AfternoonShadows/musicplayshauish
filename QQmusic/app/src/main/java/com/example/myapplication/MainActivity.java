@@ -1,39 +1,39 @@
 package com.example.myapplication;
 
-import android.app.Activity;
-import android.content.res.Resources;
 import android.os.Bundle;
-import android.util.Log;
-import android.view.View;
-import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.TextView;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
-import androidx.viewpager.widget.PagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 
-import com.example.myapplication.Adapter.MainPageViewPaperAdapter;
+import com.example.myapplication.Adapter.TabLayoutViewPagerAdapter;
+import com.example.myapplication.Fragment.MusicListFragment;
 import com.example.myapplication.Fragment.FragmentViewFive;
 import com.example.myapplication.Fragment.FragmentViewFour;
-import com.example.myapplication.Fragment.FragmentViewOne;
+import com.example.myapplication.Fragment.HomePageFragment;
 import com.example.myapplication.Fragment.FragmentViewSecond;
 import com.example.myapplication.Fragment.FragmentViewThree;
+import com.example.myapplication.bean.MusicSongBean;
 import com.google.android.material.tabs.TabLayout;
 
 import java.util.ArrayList;
 import java.util.List;
 
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity  {
+//    implements ActivityFragmentListener
     private final String TAG = "MainActivity";
     private TabLayout tabLayout;
     private ViewPager viewPager;
     private String[] resources;
     private List<Fragment> list = new ArrayList<>();
-    private MainPageViewPaperAdapter pagerAdapter;
+    private TabLayoutViewPagerAdapter pagerAdapter;
+    private Button btnMainPagePlay;
+    private TextView tvCurrentPlaySong;
+    private ImageView ivCurrentPlayPicture;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,17 +43,32 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void init() {
-        tabLayout = findViewById(R.id.mainActivityPageTabLayoutBottom);
-        viewPager = findViewById(R.id.mainActivityPageViewPager);
+        tabLayout = findViewById(R.id.tabl_activity_main_page);
+        viewPager = findViewById(R.id.vp_activity_main_page);
+        btnMainPagePlay = findViewById(R.id.btn_main_page_play);
+        ivCurrentPlayPicture = findViewById(R.id.iv_current_play_picture);
+        tvCurrentPlaySong = findViewById(R.id.tv_current_play_song);
         resources = getResources().getStringArray(R.array.mainPageTabLayoutButton);
 //        获取需要加载的页面
-        list.add(new FragmentViewOne());
+        MusicListFragment musicListFragment = new MusicListFragment();
+        list.add(musicListFragment);
+        list.add(new HomePageFragment());
         list.add(new FragmentViewSecond());
         list.add(new FragmentViewThree());
         list.add(new FragmentViewFour());
         list.add(new FragmentViewFive());
-        pagerAdapter = new MainPageViewPaperAdapter(getSupportFragmentManager(), resources, list);
+        pagerAdapter = new TabLayoutViewPagerAdapter(getSupportFragmentManager(), resources, list);
+        viewPager.setOffscreenPageLimit(1);
         viewPager.setAdapter(pagerAdapter);
         tabLayout.setupWithViewPager(viewPager);
+//        主要目的是为了修改主页面的播放内容，接口位置修改到，播放页面MusicPlayActivity可能会更好
+        musicListFragment.setMusicPlayListener(new MusicListFragment.MusicPlayListener() {
+            @Override
+            public void currentPlayMusic(MusicSongBean musicSongBean) {
+                ivCurrentPlayPicture.setBackground(getResources().getDrawable(R.mipmap.next));
+                tvCurrentPlaySong.setText(musicSongBean.getSong()+"-"+musicSongBean.getSingger());
+                btnMainPagePlay.setBackground(getResources().getDrawable(R.mipmap.pause));
+            }
+        });
     }
 }

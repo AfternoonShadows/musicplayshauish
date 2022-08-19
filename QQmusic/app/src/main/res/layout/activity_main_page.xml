@@ -1,29 +1,52 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:layout_height="match_parent">
 
-    <RelativeLayout
+    <com.google.android.material.tabs.TabLayout
+        android:id="@+id/tabl_activity_main_page"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="40dp"
+        android:layout_alignParentBottom="true"
+        app:tabBackground="@color/mainPagetabBackground"
+        app:tabGravity="fill"
+        app:tabSelectedTextColor="@color/mainPageSelectedTextColor"
+        app:tabTextColor="@color/mainPageTextColor">
 
-        <com.google.android.material.tabs.TabLayout
-            android:id="@+id/mainActivityPageTabLayoutBottom"
-            android:layout_width="match_parent"
-            android:layout_height="40dp"
-            android:layout_alignParentBottom="true"
-            app:tabBackground="@color/mainPagetabBackground"
-            app:tabGravity="fill"
-            app:tabIndicatorColor="@color/mainPageIndicatorColor"
-            app:tabIndicatorHeight="40dp"
-            app:tabSelectedTextColor="@color/mainPageSelectedTextColor"
-            app:tabTextColor="@color/mainPageTextColor"></com.google.android.material.tabs.TabLayout>
-
-        <androidx.viewpager.widget.ViewPager
-            android:id="@+id/mainActivityPageViewPager"
-            android:layout_width="match_parent"
-            android:layout_height="100dp"></androidx.viewpager.widget.ViewPager>
+    </com.google.android.material.tabs.TabLayout>
+    <RelativeLayout
+        android:id="@+id/current_content_music_play"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_above="@+id/tabl_activity_main_page">
+        <ImageView
+            android:id="@+id/iv_current_play_picture"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:gravity="center_vertical"
+            android:background="@mipmap/last"/>
+        <TextView
+            android:id="@+id/tv_current_play_song"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:gravity="center_vertical"
+            android:layout_toRightOf="@+id/iv_current_play_picture"
+            android:layout_marginLeft="20dp"
+            android:text="shiudhi"/>
+        <Button
+            android:id="@+id/btn_main_page_play"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:gravity="center_vertical"
+            android:layout_marginRight="50dp"
+            android:layout_alignParentRight="true"
+            android:background="@mipmap/pause"/>
     </RelativeLayout>
-</LinearLayout>
+    <androidx.viewpager.widget.ViewPager
+        android:id="@+id/vp_activity_main_page"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@+id/current_content_music_play">
+    </androidx.viewpager.widget.ViewPager>
+</RelativeLayout>

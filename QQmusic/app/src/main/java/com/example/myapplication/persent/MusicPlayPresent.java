@@ -38,15 +38,6 @@ public class MusicPlayPresent extends basePresent {
         musicPlayModel.setMusicPlayModelListener(musicPlayModelListener);
     }
 
-    //
-    //    修改正在播放音乐的颜色
-    public void musicListInfoChange() {
-    }
-
-    //    修改成正在播放音乐的信息
-    public void musicTextInfoChange() {
-    }
-
     //    修改播放进度
     public void seekBarInfoChange(boolean judge, int position) {
         musicPlayModel.seekBarInfoChange(judge, position);
