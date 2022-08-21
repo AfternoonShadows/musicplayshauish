@@ -4,6 +4,7 @@ import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.ServiceConnection;
+import android.os.Environment;
 import android.os.IBinder;
 import android.util.Log;
 
@@ -11,6 +12,7 @@ import com.example.myapplication.base.baseModel;
 import com.example.myapplication.bean.MusicSongBean;
 import com.example.myapplication.service.MusicPlayService;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -47,8 +49,8 @@ public class MusicPlayModel extends baseModel {
     public void init() {
         if (onBind == null) {
             connect();
-        }else{
-            Log.d(TAG,"init : no connect service");
+        } else {
+            Log.d(TAG, "init : no connect service");
         }
     }
 
@@ -76,8 +78,8 @@ public class MusicPlayModel extends baseModel {
         //    修改音乐播放进度条
         if (onBind != null) {
             onBind.seekTo(position);
-        }else{
-            Log.d(TAG,"seekBarInfoChange : no connect service");
+        } else {
+            Log.d(TAG, "seekBarInfoChange : no connect service");
         }
     }
 
@@ -85,8 +87,8 @@ public class MusicPlayModel extends baseModel {
     public void TuneUp(int position) {
         if (onBind != null) {
             onBind.next(getMusicSong().get(position).getPath());
-        }else{
-            Log.d(TAG,"TuneUp : no connect service");
+        } else {
+            Log.d(TAG, "TuneUp : no connect service");
         }
         musicPlayModelListener.initMusicInfo(list.get(position));
         Log.e(TAG, "TuneUp:" + position);
@@ -97,8 +99,8 @@ public class MusicPlayModel extends baseModel {
     public void TuneDown(int position) {
         if (onBind != null) {
             onBind.next(getMusicSong().get(position).getPath());
-        }else{
-            Log.d(TAG,"TuneDown : no connect service");
+        } else {
+            Log.d(TAG, "TuneDown : no connect service");
         }
         musicPlayModelListener.initMusicInfo(list.get(position));
         Log.e(TAG, "TuneDown:" + position);
@@ -110,21 +112,21 @@ public class MusicPlayModel extends baseModel {
         //    执行播放操作
         if (onBind != null) {
             onBind.resume();
-        }else{
-            Log.d(TAG,"Play : no connect service");
+        } else {
+            Log.d(TAG, "Play : no connect service");
         }
 
     }
 
     public void Play(int position) {
         //    执行播放操作
-        if(onBind == null){
+        if (onBind == null) {
             connect();
         }
-        if(onBind != null){
+        if (onBind != null) {
             onBind.play(list.get(position).getPath());
-        }else{
-            Log.d(TAG,"Play(int position) : no connect service");
+        } else {
+            Log.d(TAG, "Play(int position) : no connect service");
         }
         musicPlayModelListener.initMusicInfo(getMusicSong().get(position));
 
@@ -136,8 +138,8 @@ public class MusicPlayModel extends baseModel {
         if (onBind != null) {
             onBind.stop();
             unbindService();
-        }else{
-            Log.d(TAG,"Stop : no connect service");
+        } else {
+            Log.d(TAG, "Stop : no connect service");
         }
     }
 
@@ -146,8 +148,8 @@ public class MusicPlayModel extends baseModel {
         //    执行暂停操作
         if (onBind != null) {
             onBind.pause();
-        }else{
-            Log.d(TAG,"Pause : no connect service");
+        } else {
+            Log.d(TAG, "Pause : no connect service");
         }
     }
 
@@ -158,8 +160,15 @@ public class MusicPlayModel extends baseModel {
 
     //    获取歌曲信息
     public List<MusicSongBean> getMusicSong() {
+//        获取歌曲信息getExternalFilesDir
+        File file = new File(String.valueOf(mContext.getExternalFilesDir(null)) + "/Music");
+        if (!file.exists()) {
+            file.mkdir();
+        }else{
+            Log.d(TAG,"getMusicSong : 文件已创建"+file.getAbsolutePath());
+        }
 //        获取歌曲的操作
-        for(int i =0 ;i <20;i++) {
+        for (int i = 0; i < 20; i++) {
             MusicSongBean musicSongBean = new MusicSongBean();
             musicSongBean.setId(i);
             musicSongBean.setSong("丑八怪");
