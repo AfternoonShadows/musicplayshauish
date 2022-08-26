@@ -4,7 +4,9 @@ import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.ServiceConnection;
-import android.os.Environment;
+import android.content.res.AssetFileDescriptor;
+import android.content.res.AssetManager;
+import android.media.MediaPlayer;
 import android.os.IBinder;
 import android.util.Log;
 
@@ -12,7 +14,8 @@ import com.example.myapplication.base.baseModel;
 import com.example.myapplication.bean.MusicSongBean;
 import com.example.myapplication.service.MusicPlayService;
 
-import java.io.File;
+import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -24,7 +27,9 @@ public class MusicPlayModel extends baseModel {
     private MusicPlayModelListener musicPlayModelListener;
     private MusicPlayService.onBind onBind;
     private Context mContext;
-    private List<MusicSongBean> list = new ArrayList<MusicSongBean>();
+    //    音乐信息列表，包含作家名，歌曲名，音乐路径等
+    private List<MusicSongBean> musicInfoList = new ArrayList<MusicSongBean>();
+    private String[] musicFilesAssets;
     private ServiceConnection connection = new ServiceConnection() {
         @Override
         public void onServiceConnected(ComponentName componentName, IBinder iBinder) {
@@ -54,13 +59,18 @@ public class MusicPlayModel extends baseModel {
         }
     }
 
+    @Override
+    public void release() {
+        musicInfoList.clear();
+    }
+
     //    设置监听
     public void setMusicPlayModelListener(MusicPlayModelListener musicPlayModelListener) {
         this.musicPlayModelListener = musicPlayModelListener;
     }
 
     //    连接服务
-    private void connect() {
+    public void connect() {
         Log.e(TAG, "connect");
 //        "com.example.myapplication"
         Intent intent = new Intent();
@@ -90,7 +100,7 @@ public class MusicPlayModel extends baseModel {
         } else {
             Log.d(TAG, "TuneUp : no connect service");
         }
-        musicPlayModelListener.initMusicInfo(list.get(position));
+        musicPlayModelListener.onMusicInfoChange(musicInfoList.get(position));
         Log.e(TAG, "TuneUp:" + position);
         //    歌曲切换
     }
@@ -102,7 +112,7 @@ public class MusicPlayModel extends baseModel {
         } else {
             Log.d(TAG, "TuneDown : no connect service");
         }
-        musicPlayModelListener.initMusicInfo(list.get(position));
+        musicPlayModelListener.onMusicInfoChange(musicInfoList.get(position));
         Log.e(TAG, "TuneDown:" + position);
         //    歌曲切换
     }
@@ -119,16 +129,17 @@ public class MusicPlayModel extends baseModel {
     }
 
     public void Play(int position) {
-        //    执行播放操作
         if (onBind == null) {
             connect();
+        } else {
+            Log.d(TAG, "init : no connect service");
         }
         if (onBind != null) {
-            onBind.play(list.get(position).getPath());
+            onBind.play(musicInfoList.get(position).getPath());
         } else {
             Log.d(TAG, "Play(int position) : no connect service");
         }
-        musicPlayModelListener.initMusicInfo(getMusicSong().get(position));
+        musicPlayModelListener.onMusicInfoChange(getMusicSong().get(position));
 
     }
 
@@ -155,32 +166,70 @@ public class MusicPlayModel extends baseModel {
 
     //    获取音乐数量
     public int getSongNum() {
-        return list.size();
+        return musicInfoList.size();
     }
 
     //    获取歌曲信息
     public List<MusicSongBean> getMusicSong() {
+        getMusicAssetsFiles();
 //        获取歌曲信息getExternalFilesDir
+        /*
         File file = new File(String.valueOf(mContext.getExternalFilesDir(null)) + "/Music");
         if (!file.exists()) {
             file.mkdir();
-        }else{
-            Log.d(TAG,"getMusicSong : 文件已创建"+file.getAbsolutePath());
+        } else {
+            Log.d(TAG, "getMusicSong : 文件已创建" + file.getAbsolutePath());
         }
-//        获取歌曲的操作
-        for (int i = 0; i < 20; i++) {
-            MusicSongBean musicSongBean = new MusicSongBean();
-            musicSongBean.setId(i);
-            musicSongBean.setSong("丑八怪");
-            musicSongBean.setSingger("薛之谦");
-            musicSongBean.setDuration("10:50");
-            list.add(musicSongBean);
+         */
+        if (musicFilesAssets != null) {
+            MusicSongBean musicSongBean = null;
+            MediaPlayer mediaPlayer;
+            for (int i = 0; i < musicFilesAssets.length; i++) {
+                mediaPlayer = new MediaPlayer();
+                musicSongBean = new MusicSongBean();
+                musicSongBean.setId(i);
+                musicSongBean.setSong(musicFilesAssets[i].split("-", 2)[0]);
+                musicSongBean.setSingger(musicFilesAssets[i].split("-", 2)[1].substring(0, musicFilesAssets[i].split("-", 2)[1].indexOf(".mp3")));
+
+                AssetFileDescriptor assetFileDescriptor = null;
+                try {
+                    assetFileDescriptor = mContext.getAssets().openFd("musicList/" + musicFilesAssets[i]);
+                    mediaPlayer.setDataSource(assetFileDescriptor.getFileDescriptor(), assetFileDescriptor.getStartOffset(), assetFileDescriptor.getLength());
+                    mediaPlayer.prepare();
+                    musicSongBean.setDuration(getAllTime(mediaPlayer.getDuration()));
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+
+
+                musicSongBean.setPath("musicList/" + musicFilesAssets[i]);
+                musicInfoList.add(musicSongBean);
+                musicSongBean = null;
+                mediaPlayer = null;
+            }
         }
-        return list;
+        return musicInfoList;
     }
 
     public interface MusicPlayModelListener {
         //  初始化音乐播放界面信息
-        public void initMusicInfo(MusicSongBean musicSongBean);
+        public void onMusicInfoChange(MusicSongBean musicSongBean);
+    }
+
+    private void getMusicAssetsFiles() {
+
+        AssetManager assetManager = mContext.getAssets();
+        try {
+            musicFilesAssets = assetManager.list("musicList");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+
+    }
+
+    private String getAllTime(int f) {
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("mm:ss");
+        return simpleDateFormat.format(f);
     }
 }

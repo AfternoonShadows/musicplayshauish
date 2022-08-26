@@ -26,11 +26,13 @@ public class MusicPlayPresent extends basePresent {
     @Override
     public void init() {
         musicPlayModel = new MusicPlayModel(mContext);
+//        musicPlayModel.init();
     }
 
     @Override
     public void release() {
-
+        musicPlayModel.release();
+        musicPlayModel = null;
     }
 
     //    设置监听

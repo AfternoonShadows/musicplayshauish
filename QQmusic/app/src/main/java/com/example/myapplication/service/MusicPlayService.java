@@ -2,6 +2,7 @@ package com.example.myapplication.service;
 
 import android.app.Service;
 import android.content.Intent;
+import android.content.res.AssetFileDescriptor;
 import android.media.MediaPlayer;
 import android.os.Binder;
 import android.os.Bundle;
@@ -24,18 +25,17 @@ public class MusicPlayService extends Service {
     private static MediaPlayer mediaPlayer;
     private static Timer timer;
     private static TimerTask timerTask;
-    private Boolean musicstatus = false;
 
     @Override
     public void onCreate() {
         super.onCreate();
-        Log.e(TAG,"onCreate");
+        Log.e(TAG, "onCreate");
         mediaPlayer = new MediaPlayer();
     }
 
     @Override
     public IBinder onBind(Intent intent) {
-        Log.e(TAG,"onBind");
+        Log.e(TAG, "onBind");
         return new onBind();
     }
 
@@ -81,8 +81,11 @@ public class MusicPlayService extends Service {
 
         public void pause() {
             Log.e(TAG, "pause");
-            mediaPlayer.pause();
-            timer.cancel();
+            if (mediaPlayer.isPlaying()) {
+                mediaPlayer.pause();
+                timer.cancel();
+                timer = null;
+            }
         }
 
         public void next(String path) {
@@ -98,16 +101,15 @@ public class MusicPlayService extends Service {
 
         public void play(String path) {
             Log.e(TAG, path);
-            File path1 = new File(path);
-            if (musicstatus) {
+            if (mediaPlayer.isPlaying()) {
                 mediaPlayer.stop();
             }
             try {
+                AssetFileDescriptor assetFileDescriptor = getAssets().openFd(path);
                 mediaPlayer.reset();//重置路径
-                mediaPlayer.setDataSource(path1.getAbsolutePath());
+                mediaPlayer.setDataSource(assetFileDescriptor.getFileDescriptor(), assetFileDescriptor.getStartOffset(), assetFileDescriptor.getLength());
                 mediaPlayer.prepare();
                 mediaPlayer.start();
-                musicstatus = true;
                 addtimer();
             } catch (IOException e) {
                 e.printStackTrace();
@@ -115,9 +117,10 @@ public class MusicPlayService extends Service {
         }
 
         public void stop() {
-            mediaPlayer.stop();
-            timer.cancel();
-            musicstatus = false;
+            if (mediaPlayer.isPlaying()&&timer != null) {
+                mediaPlayer.stop();
+                timer.cancel();
+            }
         }
 
         public void seekTo(int progress) {

@@ -56,6 +56,7 @@ public class MusicPlayActivity extends Activity {
     protected void onDestroy() {
         super.onDestroy();
         musicPlayPresent.Stop();
+        musicPlayPresent.release();
     }
 
     public void init() {
@@ -80,7 +81,7 @@ public class MusicPlayActivity extends Activity {
         musicPlayPresent.init();
         musicPlayPresent.setMusicPlayModelListener(new MusicPlayModel.MusicPlayModelListener() {
             @Override
-            public void initMusicInfo(MusicSongBean musicSongBean) {
+            public void onMusicInfoChange(MusicSongBean musicSongBean) {
                 Log.e(TAG, "CALLBACK songPosition :" + musicSongBean.getId());
                 mPosition = musicSongBean.getId();
                 tvSinger.setText(musicSongBean.getSingger());
@@ -118,11 +119,11 @@ public class MusicPlayActivity extends Activity {
                 case R.id.btn_play:
                     if (playStatus) {
                         btnPause.setBackgroundResource(R.mipmap.start);
-                        musicPlayPresent.Play();
+                        musicPlayPresent.Pause();
                         playStatus = false;
                     } else {
                         btnPause.setBackgroundResource(R.mipmap.pause);
-                        musicPlayPresent.Pause();
+                        musicPlayPresent.Play();
                         playStatus = true;
                     }
                     break;
@@ -143,6 +144,7 @@ public class MusicPlayActivity extends Activity {
             super.handleMessage(msg);
 //        获取子线程发送过来的音乐播放进度
             Bundle bundle = msg.getData();
+
             int max = bundle.getInt("MAX");
             int currentPosition = bundle.getInt("CUR");
             sbMusicPlay.setMax(max);
