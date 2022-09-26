@@ -1,6 +1,7 @@
 package com.example.myapplication;
 
 import android.os.Bundle;
+import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -11,7 +12,7 @@ import androidx.viewpager.widget.ViewPager;
 
 import com.example.myapplication.Adapter.TabLayoutViewPagerAdapter;
 import com.example.myapplication.Fragment.MusicListFragment;
-import com.example.myapplication.Fragment.FragmentViewFive;
+import com.example.myapplication.Fragment.PersonalCenterFragment;
 import com.example.myapplication.Fragment.FragmentViewFour;
 import com.example.myapplication.Fragment.HomePageFragment;
 import com.example.myapplication.Fragment.FragmentViewSecond;
@@ -49,6 +50,9 @@ public class MainActivity extends AppCompatActivity  {
         ivCurrentPlayPicture = findViewById(R.id.iv_current_play_picture);
         tvCurrentPlaySong = findViewById(R.id.tv_current_play_song);
         resources = getResources().getStringArray(R.array.mainPageTabLayoutButton);
+
+        getWindow().getDecorView().setSystemUiVisibility(View. SYSTEM_UI_FLAG_LOW_PROFILE);
+
 //        获取需要加载的页面
         MusicListFragment musicListFragment = new MusicListFragment();
         list.add(musicListFragment);
@@ -56,7 +60,7 @@ public class MainActivity extends AppCompatActivity  {
         list.add(new FragmentViewSecond());
         list.add(new FragmentViewThree());
         list.add(new FragmentViewFour());
-        list.add(new FragmentViewFive());
+        list.add(new PersonalCenterFragment());
         pagerAdapter = new TabLayoutViewPagerAdapter(getSupportFragmentManager(), resources, list);
         viewPager.setOffscreenPageLimit(1);
         viewPager.setAdapter(pagerAdapter);
@@ -64,11 +68,16 @@ public class MainActivity extends AppCompatActivity  {
 //        主要目的是为了修改主页面的播放内容，接口位置修改到，播放页面MusicPlayActivity可能会更好
         musicListFragment.setMusicPlayListener(new MusicListFragment.MusicPlayListener() {
             @Override
-            public void currentPlayMusic(MusicSongBean musicSongBean) {
+            public void playMusicTextInfoChange(MusicSongBean musicSongBean) {
                 ivCurrentPlayPicture.setBackground(getResources().getDrawable(R.mipmap.next));
                 tvCurrentPlaySong.setText(musicSongBean.getSong()+"-"+musicSongBean.getSingger());
                 btnMainPagePlay.setBackground(getResources().getDrawable(R.mipmap.pause));
             }
         });
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
     }
 }

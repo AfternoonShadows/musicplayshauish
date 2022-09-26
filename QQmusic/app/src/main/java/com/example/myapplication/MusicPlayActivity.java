@@ -23,15 +23,15 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class MusicPlayActivity extends Activity {
-    private final String TAG = "MusicPage";
-    private Button btnNext, btnLast, btnPause;
+    private final String TAG = "MusicPlayActivity";
+    private static Button btnNext, btnLast, btnPause;
     private static SeekBar sbMusicPlay;
     private static TextView tvProcess;
     private static TextView tvTotal;
     private TextView tvSong, tvSinger;
-    private boolean playStatus = true;
+    private static boolean playStatus = true;
     private int mPosition = -1;
-    private MusicPlayPresent musicPlayPresent;
+    private static MusicPlayPresent musicPlayPresent;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,11 +56,12 @@ public class MusicPlayActivity extends Activity {
     protected void onDestroy() {
         super.onDestroy();
         musicPlayPresent.Stop();
-        musicPlayPresent.release();
+//        musicPlayPresent.release();
     }
 
     public void init() {
-        musicPlayPresent = new MusicPlayPresent(getApplicationContext());
+        Log.e(TAG, "init");
+        musicPlayPresent = MusicPlayPresent.getInstance(getApplicationContext());
         sbMusicPlay = findViewById(R.id.sb_music_play);
         tvProcess = findViewById(R.id.tv_start_progress);
         tvTotal = findViewById(R.id.tv_end_progress);
@@ -78,7 +79,7 @@ public class MusicPlayActivity extends Activity {
         btnLast.setOnClickListener(onclick);
         btnPause.setOnClickListener(onclick);
         //        回调将歌曲信息显示出来
-        musicPlayPresent.init();
+        //        musicPlayPresent.init();
         musicPlayPresent.setMusicPlayModelListener(new MusicPlayModel.MusicPlayModelListener() {
             @Override
             public void onMusicInfoChange(MusicSongBean musicSongBean) {
@@ -129,9 +130,13 @@ public class MusicPlayActivity extends Activity {
                     break;
                 case R.id.btn_next:
                     musicPlayPresent.TuneDown(mPosition);
+                    btnPause.setBackgroundResource(R.mipmap.pause);
+                    playStatus = true;
                     break;
                 case R.id.btn_last:
                     musicPlayPresent.TuneUp(mPosition);
+                    btnPause.setBackgroundResource(R.mipmap.pause);
+                    playStatus = true;
                     break;
             }
         }
@@ -147,6 +152,11 @@ public class MusicPlayActivity extends Activity {
 
             int max = bundle.getInt("MAX");
             int currentPosition = bundle.getInt("CUR");
+            if (max <= currentPosition) {
+                btnPause.setBackgroundResource(R.mipmap.start);
+                musicPlayPresent.Pause();
+                playStatus = false;
+            }
             sbMusicPlay.setMax(max);
             sbMusicPlay.setProgress(currentPosition);
             SimpleDateFormat simpleDateFormat = new SimpleDateFormat("mm:ss");

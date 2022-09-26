@@ -15,6 +15,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.myapplication.Adapter.MusicListAdapter;
 import com.example.myapplication.MusicPlayActivity;
 import com.example.myapplication.R;
+import com.example.myapplication.base.baseLazyFragment;
 import com.example.myapplication.bean.MusicSongBean;
 import com.example.myapplication.persent.MusicPlayPresent;
 
@@ -31,6 +32,60 @@ public class MusicListFragment extends Fragment {
     private List<MusicSongBean> mList;
     private MusicPlayPresent mMusicPlayPresent;
     private MusicPlayListener musicPlayListener;
+/*
+    @Override
+    public void loadDataStart() {
+        Log.e(TAG, "loadDataStart");
+        if (!mInitModule) {
+            return;
+        }
+        mList = mMusicPlayPresent.getMusicSong();
+//        适配数据
+        mRecyclerView.setAdapter(mMusicListAdapter);
+    }
+
+    @Override
+    public void findViewById(View view) {
+        Log.e(TAG, "findViewById");
+        mRecyclerView = view.findViewById(R.id.rv_music_list);
+        mRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        if (!mInitModule) {
+            Log.e(TAG, "mHaveLoadData : " + mHaveLoadData);
+            mMusicPlayPresent = MusicPlayPresent.getInstance(getContext());
+//        初始化
+//            mMusicPlayPresent.init();
+            mList = mMusicPlayPresent.getMusicSong();
+            mMusicListAdapter = new MusicListAdapter(mList);
+//        适配数据
+            mRecyclerView.setAdapter(mMusicListAdapter);
+        }
+
+        mMusicListAdapter.setItemClickLisenter(new MusicListAdapter.ItemClickLisenter() {
+            @Override
+            public void onClick(View view, int position) {
+                Log.e(TAG, "setItemClickLisenter : song position:" + String.valueOf(position));
+                Intent intent = new Intent(getActivity(), MusicPlayActivity.class);
+                intent.putExtra("position", position);
+//              跳转的界面被销毁会返回结果
+                startActivityForResult(intent, 1009);
+            }
+        });
+    }
+
+    @Override
+    public View initView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        return inflater.inflate(R.layout.activity_music_list, container, false);
+    }
+
+    @Override
+    public void clear() {
+        super.clear();
+        Log.e(TAG, "clear");
+        mList.clear();
+    }
+
+ */
+
 
     @Override
     public void onAttach(Context context) {
@@ -60,28 +115,9 @@ public class MusicListFragment extends Fragment {
         init();
     }
 
-    //    返回结果
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        Log.e(TAG, "onActivityResult : " + resultCode + " " + requestCode);
-        switch (requestCode) {
-            case 1009:
-                if (resultCode == 1010) {
-                    int position = data.getIntExtra("position", 10);
-                    mMusicListAdapter.setmPosition(position);
-                    mMusicListAdapter.notifyDataSetChanged();
-                    musicPlayListener.currentPlayMusic(mList.get(position));
-                }
-                break;
-            default:
-                break;
-        }
-    }
-
 
     public void init() {
-        mRecyclerView = root.findViewById(R.id.rv_music_list);
-//        获取数据返回List<MusicSongText>
+        //        获取数据返回List<MusicSongText>
         mMusicPlayPresent = new MusicPlayPresent(getContext());
 //        初始化
         mMusicPlayPresent.init();
@@ -89,9 +125,9 @@ public class MusicListFragment extends Fragment {
 
 //        适配数据
         mMusicListAdapter = new MusicListAdapter(mList);
+        mRecyclerView = root.findViewById(R.id.rv_music_list);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(root.getContext()));
         mRecyclerView.setAdapter(mMusicListAdapter);
-
         mMusicListAdapter.setItemClickLisenter(new MusicListAdapter.ItemClickLisenter() {
             @Override
             public void onClick(View view, int position) {
@@ -108,6 +144,7 @@ public class MusicListFragment extends Fragment {
     public void onDestroyView() {
         super.onDestroyView();
         mList.clear();
+        mMusicPlayPresent.release();
         mMusicPlayPresent = null;
         mMusicListAdapter = null;
         Log.e(TAG, "onDestroyView");
@@ -125,13 +162,33 @@ public class MusicListFragment extends Fragment {
         Log.e(TAG, "onDetach");
     }
 
+
+    //    返回结果
+//    修改
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        Log.e(TAG, "onActivityResult : " + resultCode + " " + requestCode);
+        switch (requestCode) {
+            case 1009:
+                if (resultCode == 1010) {
+                    int position = data.getIntExtra("position", 10);
+                    mMusicListAdapter.setmPosition(position);
+                    mMusicListAdapter.notifyDataSetChanged();
+                    musicPlayListener.playMusicTextInfoChange(mList.get(position));
+                }
+                break;
+            default:
+                break;
+        }
+    }
+
     public void setMusicPlayListener(MusicPlayListener musicPlayListener) {
         Log.e(TAG, "setMusicPlayListener : song position:");
         this.musicPlayListener = musicPlayListener;
     }
 
     public interface MusicPlayListener {
-        void currentPlayMusic(MusicSongBean musicSongBean);
+        void playMusicTextInfoChange(MusicSongBean musicSongBean);
     }
 
 }

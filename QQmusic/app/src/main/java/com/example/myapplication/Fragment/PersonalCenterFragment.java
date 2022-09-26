@@ -13,7 +13,7 @@ import androidx.fragment.app.Fragment;
 
 import com.example.myapplication.R;
 
-public class FragmentViewFive extends Fragment {
+public class PersonalCenterFragment extends Fragment {
     private final String TAG = "FragmentViewFive";
 
     @Override
@@ -31,7 +31,7 @@ public class FragmentViewFive extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         Log.e(TAG, "onCreateView");
-        return inflater.inflate(R.layout.activity_main_viewfive, container, false);
+        return inflater.inflate(R.layout.fragment_personal_center, container, false);
     }
 
     @Override

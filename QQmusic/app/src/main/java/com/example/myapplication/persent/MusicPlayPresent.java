@@ -14,44 +14,57 @@ import java.util.List;
  *
  **/
 public class MusicPlayPresent extends basePresent {
-    private String TAG = "MusicPlayPresent";
-    private MusicPlayModel musicPlayModel;
+    private static final String TAG = "MusicPlayPresent";
+    private MusicPlayModel mMusicPlayModel;
+    private volatile static MusicPlayPresent mMusicPlayPresent;
     private Context mContext;
 
     public MusicPlayPresent(Context mContext) {
         super(mContext);
         this.mContext = mContext;
+        init();
+    }
+
+    public static MusicPlayPresent getInstance(Context mContext) {
+        if (mMusicPlayPresent == null) {
+            synchronized (MusicPlayPresent.class) {
+                if (mMusicPlayPresent == null) {
+                    mMusicPlayPresent = new MusicPlayPresent(mContext);
+                }
+            }
+        }
+        return mMusicPlayPresent;
     }
 
     @Override
     public void init() {
-        musicPlayModel = new MusicPlayModel(mContext);
-//        musicPlayModel.init();
+        mMusicPlayModel = new MusicPlayModel(mContext);
+        mMusicPlayModel.init();
     }
 
     @Override
     public void release() {
-        musicPlayModel.release();
-        musicPlayModel = null;
+        mMusicPlayModel.release();
+        mMusicPlayModel = null;
     }
 
     //    设置监听
     public void setMusicPlayModelListener(MusicPlayModel.MusicPlayModelListener musicPlayModelListener) {
-        musicPlayModel.setMusicPlayModelListener(musicPlayModelListener);
+        mMusicPlayModel.setMusicPlayModelListener(musicPlayModelListener);
     }
 
     //    修改播放进度
     public void seekBarInfoChange(boolean judge, int position) {
-        musicPlayModel.seekBarInfoChange(judge, position);
+        mMusicPlayModel.seekBarInfoChange(judge, position);
     }
 
     //    上一曲
     public void TuneUp(int position) {
         Log.e(TAG, "TuneUp:" + position);
         if (position > 0) {
-            musicPlayModel.TuneUp(--position);
+            mMusicPlayModel.TuneUp(--position);
         } else {
-            musicPlayModel.TuneUp(position);
+            mMusicPlayModel.TuneUp(position);
         }
     }
 
@@ -59,40 +72,40 @@ public class MusicPlayPresent extends basePresent {
     public void TuneDown(int position) {
         Log.e(TAG, "TuneDown:" + position);
         if (position >= getSongNum() - 1) {
-            musicPlayModel.TuneDown(0);
+            mMusicPlayModel.TuneDown(0);
         } else {
-            musicPlayModel.TuneDown(++position);
+            mMusicPlayModel.TuneDown(++position);
         }
     }
 
     //    播放
     public void Play() {
-        musicPlayModel.Play();
+        mMusicPlayModel.Play();
     }
 
     public void Play(int position) {
-        musicPlayModel.Play(position);
+        mMusicPlayModel.Play(position);
     }
 
     //    停止播放
     public void Stop() {
-        musicPlayModel.Stop();
+        mMusicPlayModel.Stop();
     }
 
     //    暂停
     public void Pause() {
-        musicPlayModel.Pause();
+        mMusicPlayModel.Pause();
     }
 
     //    获取音乐数量
     public int getSongNum() {
-        return musicPlayModel.getSongNum();
+        return mMusicPlayModel.getSongNum();
     }
 
     //    获取歌曲信息
     public List<MusicSongBean> getMusicSong() {
         List<MusicSongBean> list = new ArrayList<>();
-        list = musicPlayModel.getMusicSong();
+        list = mMusicPlayModel.getMusicSong();
         return list;
     }
 }

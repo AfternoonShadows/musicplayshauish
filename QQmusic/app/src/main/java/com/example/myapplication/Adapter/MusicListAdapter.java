@@ -22,6 +22,7 @@ public class MusicListAdapter extends RecyclerView.Adapter<MusicListAdapter.MHod
     private View view;
     private int mPosition = -1;
 
+
     public MusicListAdapter(List<MusicSongBean> list) {
         this.list = list;
     }
@@ -32,7 +33,7 @@ public class MusicListAdapter extends RecyclerView.Adapter<MusicListAdapter.MHod
 
     @Override
     public MusicListAdapter.MHodler onCreateViewHolder(ViewGroup parent, int viewType) {
-        view = LayoutInflater.from(parent.getContext()).inflate(R.layout.activity_music_list_recyclerview_content, parent, false);
+        view = LayoutInflater.from(parent.getContext()).inflate(R.layout.activity_music_list_content, parent, false);
         Log.e(TAG, " It's created");
         return new MHodler(view);
     }

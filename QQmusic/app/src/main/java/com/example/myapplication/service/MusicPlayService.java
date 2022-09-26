@@ -21,7 +21,7 @@ import java.util.TimerTask;
  *
  **/
 public class MusicPlayService extends Service {
-    private final String TAG = "MusicPlayService";
+    private final String TAG = getClass().getSimpleName();
     private static MediaPlayer mediaPlayer;
     private static Timer timer;
     private static TimerTask timerTask;
@@ -51,6 +51,7 @@ public class MusicPlayService extends Service {
 
     //    添加计时器
     public static void addtimer() {
+        Log.e("TAG", "addtimer");
         if (timer == null) {
             timer = new Timer();
             timerTask = new TimerTask() {
@@ -100,7 +101,7 @@ public class MusicPlayService extends Service {
         }
 
         public void play(String path) {
-            Log.e(TAG, path);
+            Log.e(TAG, "play : " + path);
             if (mediaPlayer.isPlaying()) {
                 mediaPlayer.stop();
             }
@@ -117,7 +118,7 @@ public class MusicPlayService extends Service {
         }
 
         public void stop() {
-            if (mediaPlayer.isPlaying()&&timer != null) {
+            if (mediaPlayer.isPlaying() && timer != null) {
                 mediaPlayer.stop();
                 timer.cancel();
             }

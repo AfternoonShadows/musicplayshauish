@@ -14,7 +14,7 @@ import com.example.myapplication.R;
 /**
  *
  **/
-public class HonePageCRecommendFragment extends Fragment {
+public class HomePageCRecommendFragment extends Fragment {
     private View root;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {

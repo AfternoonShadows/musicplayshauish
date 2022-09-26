@@ -10,6 +10,7 @@ import android.media.MediaPlayer;
 import android.os.IBinder;
 import android.util.Log;
 
+import com.example.myapplication.MusicPlayActivity;
 import com.example.myapplication.base.baseModel;
 import com.example.myapplication.bean.MusicSongBean;
 import com.example.myapplication.service.MusicPlayService;
@@ -55,13 +56,14 @@ public class MusicPlayModel extends baseModel {
         if (onBind == null) {
             connect();
         } else {
-            Log.d(TAG, "init : no connect service");
+            Log.e(TAG, "init : connect service");
         }
     }
 
     @Override
     public void release() {
         musicInfoList.clear();
+        unbindService();
     }
 
     //    设置监听
@@ -79,7 +81,8 @@ public class MusicPlayModel extends baseModel {
         mContext.bindService(intent, connection, Context.BIND_AUTO_CREATE);
     }
 
-    public void unbindService() {
+    private void unbindService() {
+        Log.e(TAG, "unbindService: ");
         mContext.unbindService(connection);
     }
 
@@ -129,11 +132,6 @@ public class MusicPlayModel extends baseModel {
     }
 
     public void Play(int position) {
-        if (onBind == null) {
-            connect();
-        } else {
-            Log.d(TAG, "init : no connect service");
-        }
         if (onBind != null) {
             onBind.play(musicInfoList.get(position).getPath());
         } else {
@@ -217,9 +215,10 @@ public class MusicPlayModel extends baseModel {
     }
 
     private void getMusicAssetsFiles() {
-
+//        获取当前APP中的Assets
         AssetManager assetManager = mContext.getAssets();
         try {
+//        获取当前APP中的Assets文件名(包含文件夹)
             musicFilesAssets = assetManager.list("musicList");
         } catch (IOException e) {
             e.printStackTrace();

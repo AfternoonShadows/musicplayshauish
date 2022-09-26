@@ -1,5 +1,7 @@
 <resources>
     <string name="app_name">My Application</string>
+    <!--    -->
+    <string name="text_personal_center">我的</string>
     <!--    activity_main_page  xml文件文字配置-->
     <string-array name="mainPageTabLayoutButton">
         <item>列表</item>
