@@ -29,7 +29,7 @@
             android:layout_marginLeft="10dp"
             android:layout_toRightOf="@+id/tv_toptext"
             android:text="限定怀旧空间上线"
-            android:background="@drawable/btn_personal_center"/>
+            android:background="@drawable/btn_radius20_stroke2"/>
         <ImageButton
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

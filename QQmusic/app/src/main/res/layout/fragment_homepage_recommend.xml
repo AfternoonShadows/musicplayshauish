@@ -1,12 +1,84 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
-    <TextView
+
+    <LinearLayout
+        android:id="@+id/ll_recommend_top"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center_horizontal"
-        android:text="qw"
-        tools:ignore="MissingConstraints" />
-</androidx.constraintlayout.widget.ConstraintLayout>
+        android:layout_height="40dp"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:id="@+id/img_recommend_portrait"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:background="@drawable/img_circle" />
+
+        <TextView
+            android:id="@+id/txt_recommend_username"
+            android:layout_width="80dp"
+            android:layout_height="40dp"
+            android:ellipsize="end"
+            android:gravity="center_vertical"
+            android:singleLine="true"
+            android:text="午后的疏影" />
+
+        <Button
+            android:id="@+id/btn_recommend_usergrade"
+            android:layout_width="70dp"
+            android:layout_height="17dp"
+            android:background="@drawable/btn_radius20"
+            android:ellipsize="end"
+            android:singleLine="true"
+            android:text="lv1续费" />
+
+        <Button
+            android:id="@+id/btn_recommend_userexperience"
+            android:layout_width="140dp"
+            android:layout_height="17dp"
+            android:layout_marginLeft="50dp"
+            android:background="@drawable/btn_radius20"
+            android:ellipsize="end"
+            android:singleLine="true"
+            android:text="查看我的音乐DNA" />
+    </LinearLayout>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recycler_recommend_top"
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:layout_below="@+id/ll_recommend_top" />
+
+    <RelativeLayout
+        android:id="@+id/rl_recommend_middle"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_below="@+id/recycler_recommend_top"
+        android:gravity="center_vertical">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="20dp"
+            android:layout_marginLeft="5dp"
+            android:gravity="center"
+            android:text="你的歌单补给站" />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="20dp"
+            android:layout_alignParentRight="true"
+            android:background="@drawable/btn_radius20"
+            android:gravity="center"
+            android:text="..." />
+    </RelativeLayout>
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recycler_recommend_middle"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:layout_below="@+id/rl_recommend_middle" />
+</RelativeLayout>

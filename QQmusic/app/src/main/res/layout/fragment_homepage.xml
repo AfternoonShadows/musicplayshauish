@@ -18,31 +18,34 @@
         app:tabMinWidth="70dp">
     </com.google.android.material.tabs.TabLayout>
     <LinearLayout
-        android:id="@+id/LOne_fragment_homepage"
+        android:id="@+id/ll_fragment_homepage"
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:gravity="center_vertical"
         android:orientation="horizontal"
         android:layout_below="@+id/tabL_fragment_homepage">
         <EditText
+            android:id="@+id/edit_homepage_search"
             android:layout_width="0dp"
             android:layout_height="40dp"
             android:layout_weight="8"
             />
         <Button
+            android:id="@+id/btn_homepage_freemusic"
             android:layout_width="0dp"
             android:layout_height="40dp"
             android:layout_weight="1"
             android:text="免费"/>
         <Button
+            android:id="@+id/btn_homepage_listentofind"
             android:layout_width="0dp"
             android:layout_height="40dp"
             android:layout_weight="1"
             android:text="听歌识曲"/>
     </LinearLayout>
     <androidx.viewpager.widget.ViewPager
-        android:id="@+id/vp_fragment_homepage"
+        android:id="@+id/vpager_fragment_homepage"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@+id/LOne_fragment_homepage"/>
+        android:layout_below="@+id/ll_fragment_homepage"/>
 </RelativeLayout>

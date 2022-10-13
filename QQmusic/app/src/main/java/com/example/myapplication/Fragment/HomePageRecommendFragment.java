@@ -10,12 +10,29 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import com.example.myapplication.R;
+import com.example.myapplication.base.baseLazyFragment;
 
 /**
  *
  **/
-public class HomePageCRecommendFragment extends Fragment {
+public class HomePageRecommendFragment extends baseLazyFragment {
     private View root;
+
+    @Override
+    public void loadDataStart() {
+
+    }
+
+    @Override
+    public void findViewById(View view) {
+
+    }
+
+    @Override
+    public View initView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        return inflater.inflate(R.layout.fragment_homepage_recommend,container,false);
+    }
+/*
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         if(root==null){
@@ -23,4 +40,6 @@ public class HomePageCRecommendFragment extends Fragment {
         }
         return root;
     }
+
+ */
 }

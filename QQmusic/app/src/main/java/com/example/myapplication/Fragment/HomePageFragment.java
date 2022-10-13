@@ -5,6 +5,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 
 import androidx.fragment.app.Fragment;
 import androidx.viewpager.widget.ViewPager;
@@ -33,13 +34,13 @@ public class HomePageFragment extends baseLazyFragment {
     @Override
     public void findViewById(View view) {
         mTabLayout = view.findViewById(R.id.tabL_fragment_homepage);
-        mViewPager = view.findViewById(R.id.vp_fragment_homepage);
+        mViewPager = view.findViewById(R.id.vpager_fragment_homepage);
         resources = getResources().getStringArray(R.array.fragmentHomepageTabLayout);
-        HomePageCRecommendFragment homePageCRecommendFragment;
+        HomePageRecommendFragment homePageRecommendFragment;
         for (int i = 0; i <= 23; i++) {
-            homePageCRecommendFragment = new HomePageCRecommendFragment();
-            list.add(homePageCRecommendFragment);
-            homePageCRecommendFragment = null;
+            homePageRecommendFragment = new HomePageRecommendFragment();
+            list.add(homePageRecommendFragment);
+            homePageRecommendFragment = null;
         }
         mTabLayoutViewPagerAdapter = new TabLayoutViewPagerAdapter(getChildFragmentManager(), resources, list);
         mViewPager.setOffscreenPageLimit(2);

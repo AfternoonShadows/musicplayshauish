@@ -24,7 +24,7 @@ import java.util.List;
 /**
  *
  **/
-public class MusicListFragment extends Fragment {
+public class MusicListFragment extends baseLazyFragment {
     private final String TAG = "MusicListFragment";
     private View root = null;
     private RecyclerView mRecyclerView;
@@ -86,6 +86,21 @@ public class MusicListFragment extends Fragment {
 
  */
 
+
+    @Override
+    public void loadDataStart() {
+
+    }
+
+    @Override
+    public void findViewById(View view) {
+
+    }
+
+    @Override
+    public View initView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        return null;
+    }
 
     @Override
     public void onAttach(Context context) {
