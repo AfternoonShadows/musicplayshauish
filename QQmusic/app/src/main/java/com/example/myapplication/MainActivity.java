@@ -13,10 +13,7 @@ import androidx.viewpager.widget.ViewPager;
 import com.example.myapplication.Adapter.TabLayoutViewPagerAdapter;
 import com.example.myapplication.Fragment.MusicListFragment;
 import com.example.myapplication.Fragment.PersonalCenterFragment;
-import com.example.myapplication.Fragment.FragmentViewFour;
 import com.example.myapplication.Fragment.HomePageFragment;
-import com.example.myapplication.Fragment.FragmentViewSecond;
-import com.example.myapplication.Fragment.FragmentViewThree;
 import com.example.myapplication.bean.MusicSongBean;
 import com.google.android.material.tabs.TabLayout;
 
@@ -57,9 +54,6 @@ public class MainActivity extends AppCompatActivity  {
         MusicListFragment musicListFragment = new MusicListFragment();
         list.add(musicListFragment);
         list.add(new HomePageFragment());
-        list.add(new FragmentViewSecond());
-        list.add(new FragmentViewThree());
-        list.add(new FragmentViewFour());
         list.add(new PersonalCenterFragment());
         pagerAdapter = new TabLayoutViewPagerAdapter(getSupportFragmentManager(), resources, list);
         viewPager.setOffscreenPageLimit(1);

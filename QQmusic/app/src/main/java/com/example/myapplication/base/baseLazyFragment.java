@@ -37,18 +37,18 @@ public abstract class baseLazyFragment extends Fragment {
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        Log.e(TAG, "onAttach");
+        Log.d(TAG, "onAttach");
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Log.e(TAG, "onCreate");
+        Log.d(TAG, "onCreate");
     }
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        Log.e(TAG, "onCreateView");
+        Log.d(TAG, "onCreateView");
         if (mRootView == null) {
             mRootView = initView(inflater, container, savedInstanceState);
         }
@@ -60,31 +60,31 @@ public abstract class baseLazyFragment extends Fragment {
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        Log.e(TAG, "onActivityCreated");
+        Log.d(TAG, "onActivityCreated");
     }
 
     @Override
     public void onStart() {
         super.onStart();
-        Log.e(TAG, "onStart: mHaveLoadData: " + mHaveLoadData);
+        Log.d(TAG, "onStart: mHaveLoadData: " + mHaveLoadData);
     }
 
     @Override
     public void onResume() {
         super.onResume();
-        Log.e(TAG, "onResume");
+        Log.d(TAG, "onResume");
     }
 
     @Override
     public void onPause() {
         super.onPause();
-        Log.e(TAG, "onPause");
+        Log.d(TAG, "onPause");
     }
 
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        Log.e(TAG, "onDestroyView");
+        Log.d(TAG, "onDestroyView");
         clear();
         mLoadDataFinished = false;
         mHaveLoadData = false;
@@ -95,18 +95,18 @@ public abstract class baseLazyFragment extends Fragment {
     public void onDestroy() {
         super.onDestroy();
         mRootView = null;
-        Log.e(TAG, "onDestroy");
+        Log.d(TAG, "onDestroy");
     }
 
     @Override
     public void onDetach() {
         super.onDetach();
-        Log.e(TAG, "onDetach");
+        Log.d(TAG, "onDetach");
     }
 
     @Override
     public void setUserVisibleHint(boolean isVisibleToUser) {
-        Log.e(TAG, "setUserVisibleHint");
+        Log.d(TAG, "setUserVisibleHint");
         super.setUserVisibleHint(isVisibleToUser);
         // 如果还没有加载过数据 && 用户切换到了这个fragment
         // 那就开始加载数据

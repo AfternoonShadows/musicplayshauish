@@ -24,7 +24,7 @@ import java.util.List;
 /**
  *
  **/
-public class MusicListFragment extends baseLazyFragment {
+public class MusicListFragment extends Fragment {
     private final String TAG = "MusicListFragment";
     private View root = null;
     private RecyclerView mRecyclerView;
@@ -32,91 +32,22 @@ public class MusicListFragment extends baseLazyFragment {
     private List<MusicSongBean> mList;
     private MusicPlayPresent mMusicPlayPresent;
     private MusicPlayListener musicPlayListener;
-/*
-    @Override
-    public void loadDataStart() {
-        Log.e(TAG, "loadDataStart");
-        if (!mInitModule) {
-            return;
-        }
-        mList = mMusicPlayPresent.getMusicSong();
-//        适配数据
-        mRecyclerView.setAdapter(mMusicListAdapter);
-    }
-
-    @Override
-    public void findViewById(View view) {
-        Log.e(TAG, "findViewById");
-        mRecyclerView = view.findViewById(R.id.rv_music_list);
-        mRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        if (!mInitModule) {
-            Log.e(TAG, "mHaveLoadData : " + mHaveLoadData);
-            mMusicPlayPresent = MusicPlayPresent.getInstance(getContext());
-//        初始化
-//            mMusicPlayPresent.init();
-            mList = mMusicPlayPresent.getMusicSong();
-            mMusicListAdapter = new MusicListAdapter(mList);
-//        适配数据
-            mRecyclerView.setAdapter(mMusicListAdapter);
-        }
-
-        mMusicListAdapter.setItemClickLisenter(new MusicListAdapter.ItemClickLisenter() {
-            @Override
-            public void onClick(View view, int position) {
-                Log.e(TAG, "setItemClickLisenter : song position:" + String.valueOf(position));
-                Intent intent = new Intent(getActivity(), MusicPlayActivity.class);
-                intent.putExtra("position", position);
-//              跳转的界面被销毁会返回结果
-                startActivityForResult(intent, 1009);
-            }
-        });
-    }
-
-    @Override
-    public View initView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.activity_music_list, container, false);
-    }
-
-    @Override
-    public void clear() {
-        super.clear();
-        Log.e(TAG, "clear");
-        mList.clear();
-    }
-
- */
-
-
-    @Override
-    public void loadDataStart() {
-
-    }
-
-    @Override
-    public void findViewById(View view) {
-
-    }
-
-    @Override
-    public View initView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        return null;
-    }
 
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        Log.e(TAG, "onAttach");
+        Log.d(TAG, "onAttach");
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Log.e(TAG, "onCreate");
+        Log.d(TAG, "onCreate");
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        Log.e(TAG, "onCreateView");
+        Log.d(TAG, "onCreateView");
         if (root == null) {
             root = inflater.inflate(R.layout.activity_music_list, container, false);
         }
@@ -126,7 +57,7 @@ public class MusicListFragment extends baseLazyFragment {
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        Log.e(TAG, "onActivityCreated");
+        Log.d(TAG, "onActivityCreated");
         init();
     }
 
@@ -146,7 +77,7 @@ public class MusicListFragment extends baseLazyFragment {
         mMusicListAdapter.setItemClickLisenter(new MusicListAdapter.ItemClickLisenter() {
             @Override
             public void onClick(View view, int position) {
-                Log.e(TAG, "setItemClickLisenter : song position:" + String.valueOf(position));
+                Log.d(TAG, "setItemClickLisenter : song position:" + String.valueOf(position));
                 Intent intent = new Intent(getActivity(), MusicPlayActivity.class);
                 intent.putExtra("position", position);
 //              跳转的界面被销毁会返回结果
@@ -162,19 +93,19 @@ public class MusicListFragment extends baseLazyFragment {
         mMusicPlayPresent.release();
         mMusicPlayPresent = null;
         mMusicListAdapter = null;
-        Log.e(TAG, "onDestroyView");
+        Log.d(TAG, "onDestroyView");
     }
 
     @Override
     public void onDestroy() {
         super.onDestroy();
-        Log.e(TAG, "onDestroy");
+        Log.d(TAG, "onDestroy");
     }
 
     @Override
     public void onDetach() {
         super.onDetach();
-        Log.e(TAG, "onDetach");
+        Log.d(TAG, "onDetach");
     }
 
 
@@ -198,7 +129,7 @@ public class MusicListFragment extends baseLazyFragment {
     }
 
     public void setMusicPlayListener(MusicPlayListener musicPlayListener) {
-        Log.e(TAG, "setMusicPlayListener : song position:");
+        Log.d(TAG, "setMusicPlayListener : song position:");
         this.musicPlayListener = musicPlayListener;
     }
 
